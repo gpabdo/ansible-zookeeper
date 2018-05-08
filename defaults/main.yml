@@ -1,0 +1,6 @@
+---
+# defaults file for zookeeper
+
+version: 4.0.0
+
+zookeeper_servers: localhost:2888:3888

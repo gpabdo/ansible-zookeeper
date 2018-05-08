@@ -1,0 +1,21 @@
+---
+# tasks file for zookeeper
+
+- name: Create directory
+  file: 
+     path: /data/zookeeper 
+     state: directory
+     recurse: yes
+
+- name: Launch zookeeper
+  docker_container:
+    image: confluentinc/cp-zookeeper:{{ version }}
+    name: zookeeper
+    network_mode: host
+    env:
+        ZOOKEEPER_CLIENT_PORT: 2181
+        ZOOKEEPER_SERVER_ID: "{{ inventory_hostname | regex_search('[0-9]') }}"
+        ZOOKEEPER_SERVERS: "{{ zookeeper_servers }}"
+    volumes:
+      - /data/zookeeper:/var/lib/zookeeper:rw
+    restart_policy: unless-stopped
